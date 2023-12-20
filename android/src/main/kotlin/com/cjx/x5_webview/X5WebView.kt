@@ -92,6 +92,12 @@ class X5WebView(private val context: Activity?, private val id: Int, private val
                     channel.invokeMethod("onShowCustomView", null)
                 }
 
+                override fun onPermissionRequest(request: PermissionRequest?) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        request?.grant(request.resources)
+                    }
+                }
+
                 override fun onHideCustomView() {
                     super.onHideCustomView()
                     channel.invokeMethod("onHideCustomView", null)
