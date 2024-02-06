@@ -26,7 +26,7 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
     var mContext: Context? = null
     var mActivity: Activity? = null
     var mFlutterPluginBinding: FlutterPlugin.FlutterPluginBinding? = null
-    val handler = Handler(Looper.mainLooper)
+    val handler = Handler(Looper.getMainLooper())
 
     companion object {
         var methodChannel: MethodChannel? = null
@@ -42,15 +42,15 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
                 QbSdk.initTbsSettings(map)
                 QbSdk.setTbsListener(object : TbsListener {
                     override fun onDownloadFinish(p0: Int) {
-                        handler.post((){methodChannel?.invokeMethod("onDownloadFinish", null)})
+                        handler.post{methodChannel?.invokeMethod("onDownloadFinish", null)}
                     }
 
                     override fun onInstallFinish(p0: Int) {
-                        handler.post((){methodChannel?.invokeMethod("onInstallFinish", null)})
+                        handler.post{methodChannel?.invokeMethod("onInstallFinish", null)}
                     }
 
                     override fun onDownloadProgress(p0: Int) {
-                        handler.post((){methodChannel?.invokeMethod("onDownloadProgress", null)})
+                        handler.post{methodChannel?.invokeMethod("onDownloadProgress", null)}
                     }
 
                 })
