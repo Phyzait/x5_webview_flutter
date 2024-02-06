@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import android.os.Handler
+import android.os.Looper
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.*
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -24,6 +26,8 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
     var mContext: Context? = null
     var mActivity: Activity? = null
     var mFlutterPluginBinding: FlutterPlugin.FlutterPluginBinding? = null
+    val handler = Handler(Looper.mainLooper)
+
     companion object {
         var methodChannel: MethodChannel? = null
         var chooserCallback: ValueCallback<Uri>? = null
@@ -38,15 +42,15 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
                 QbSdk.initTbsSettings(map)
                 QbSdk.setTbsListener(object : TbsListener {
                     override fun onDownloadFinish(p0: Int) {
-                        methodChannel?.invokeMethod("onInstallFinish", null)
+                        handler.post((){methodChannel?.invokeMethod("onDownloadFinish", null)})
                     }
 
                     override fun onInstallFinish(p0: Int) {
-                        methodChannel?.invokeMethod("onDownloadFinish", null)
+                        handler.post((){methodChannel?.invokeMethod("onInstallFinish", null)})
                     }
 
                     override fun onDownloadProgress(p0: Int) {
-                        methodChannel?.invokeMethod("onDownloadFinish", null)
+                        handler.post((){methodChannel?.invokeMethod("onDownloadProgress", null)})
                     }
 
                 })
