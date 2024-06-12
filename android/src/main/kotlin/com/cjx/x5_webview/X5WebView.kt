@@ -200,6 +200,18 @@ class X5WebView(private val context: Activity?, private val id: Int, private val
                 }
             }
 
+            "takePhoto" -> {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val width = webView.width
+                    val height = webView.height
+                    val x5bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                    val x5canvas = Canvas(x5bitmap)
+                    webView.x5WebViewExtension.snapshotWholePage(x5canvas, false, false)
+                    val outputStream = ByteArrayOutputStream()
+                    x5bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    result.success(outputStream.toByteArray())
+                }
+            }
             else -> {
                 result.notImplemented()
             }

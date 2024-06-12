@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -128,6 +129,10 @@ class X5WebViewController {
       'url': url,
       'headers': headers,
     });
+  }
+
+  Future<Uint8List> takePhoto() async {
+    return await _channel.invokeMethod('takePhoto');
   }
 
   Future<bool> isX5WebViewLoadSuccess() async {
