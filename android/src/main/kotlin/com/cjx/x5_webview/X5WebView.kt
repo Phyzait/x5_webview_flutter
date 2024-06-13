@@ -2,6 +2,8 @@ package com.cjx.x5_webview
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -17,6 +19,11 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+
 
 
 class X5WebView(private val context: Activity?, private val id: Int, private val params: Map<String, Any>, private val messenger: BinaryMessenger?, private val containerView: View?) : PlatformView, MethodChannel.MethodCallHandler {
