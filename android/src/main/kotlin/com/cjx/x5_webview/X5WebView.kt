@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.View
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient
 import com.tencent.smtt.export.external.interfaces.PermissionRequest
+import com.tencent.smtt.export.external.interfaces.SslError
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.sdk.ValueCallback
 import com.tencent.smtt.sdk.WebChromeClient
@@ -60,6 +62,10 @@ class X5WebView(private val context: Activity?, private val id: Int, private val
             val urlInterceptEnabled = params["urlInterceptEnabled"] as Boolean
 
             webViewClient = object : WebViewClient() {
+                override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
+                    p1?.proceed()
+                }
+
                 override fun shouldOverrideUrlLoading(view: WebView, loadUrl: String?): Boolean {
 
                     if (urlInterceptEnabled) {
@@ -124,9 +130,9 @@ class X5WebView(private val context: Activity?, private val id: Int, private val
                     Log.e("--cjx","p1:$p1 --- p2:$p2")
 
                     act.startActivityForResult(Intent(Intent.ACTION_PICK).apply {
-                                                                                type=p1
+                        type=p1
                     }
-                        ,21211)
+                            ,21211)
 
                 }
 
@@ -213,7 +219,7 @@ class X5WebView(private val context: Activity?, private val id: Int, private val
                     val height = webView.height
                     val x5bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                     val x5canvas = Canvas(x5bitmap)
-                    webView.x5WebViewExtension.snapshotWholePage(x5canvas, false, false)
+                    webView.draw(x5canvas)
                     val outputStream = ByteArrayOutputStream()
                     x5bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     result.success(outputStream.toByteArray())
