@@ -36,7 +36,7 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "reset" -> {
-                QbSdk.reset(mContext)
+                result.success(QbSdk.reset(mContext))
             }
             "init" -> {
                 val map = hashMapOf<String, Any>()
