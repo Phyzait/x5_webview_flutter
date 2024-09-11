@@ -35,6 +35,9 @@ class X5WebViewPlugin : MethodCallHandler, FlutterPlugin, ActivityAware {
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
+            "reset" -> {
+                QbSdk.reset(mContext)
+            }
             "init" -> {
                 val map = hashMapOf<String, Any>()
                 map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true

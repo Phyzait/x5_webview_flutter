@@ -38,6 +38,15 @@ class X5Sdk {
     }
   }
 
+  static Future<void> reset() async {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      await _channel.invokeMethod("reset");
+      return;
+    } else {
+      return;
+    }
+  }
+
   ///设置是否在非wifi环境下载内核，默认false
   static Future<bool> setDownloadWithoutWifi(bool isDownloadWithoutWifi) async {
     if (defaultTargetPlatform == TargetPlatform.android) {
